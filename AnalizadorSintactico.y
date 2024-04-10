@@ -2,8 +2,8 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <math.h>
-    #include "estructura.h"
-    #include "gestionErrores.h"
+    #include "TS.h"
+    #include "Errores.h"
 
     int yylex(); //Función del analizador léxico
     void yyerror(char *s); //Función de informe de errores
@@ -12,7 +12,7 @@
 /* Declaraciones de Bison */
 %define api.value.type union
 %token <double>  NUM
-%token <symrec*> VAR FNCT
+%token <Nodo*> VAR FNCT
 %token EXIT
 %token UNEXPECTED
 %type <double> exp
@@ -28,39 +28,44 @@
 
 /* Reglas gramaticales. Para cada regla, definimos la acción a tomar cuando una instancia de esa regla sea reconocida */
 
-input:  /* vacío */
-    | input line
+input:  {
+    
+    printf("█ █▄░█ ▀█▀ █▀▀ █▀█ █▀█ █▀▀ ▀█▀ █▀▀   █▀▄▀█ ▄▀█ ▀█▀ █▀▀ █▀▄▀█ ▄▀█ ▀█▀ █ █▀▀ █▀█\n█ █░▀█ ░█░ ██▄ █▀▀ █▀▄ ██▄ ░█░ ██▄   █░▀░█ █▀█ ░█░ ██▄ █░▀░█ █▀█ ░█░ █ █▄▄ █▄█");
+    
+    printf("\n\n> ");
+    }
+    | input line {printf("> ");}
 ;
 
 line: '\n'
-    | exp '\n'      { printf("\t%.10g\n",$1); }
-    | exp ';' '\n'  { printf("\t%.10g\n",$1); }
-    | error '\n'    { yyerrok;                }
+    | exp '\n'      {                       }
+    | exp ';' '\n'  { printf("\t%lf\n",$1); }
+    | error '\n'    { yyerrok;              }
     | EXIT '\n'     { 
-         destruirTablaSimbolos(); /* Destruimos la tabla de Simbolos antes de salir */
-         exit(0); 
+        destruirTS(); /* Destruimos la tabla de Simbolos antes de salir */
+        exit(0); 
     }
 ;
 
 exp: NUM                 { $$ = $1; }
-    | VAR                { $$ = $1->value.var; }
+    | VAR                { $$ = $1->valor.valor; }
     | FNCT '=' exp       {
-        imprimirError(2,$1->name);
+        imprimirError(2,$1->nombre);
         return 0;
     }
 
     | VAR '=' exp        { 
-        if($1->constant == 'n'){
-            $1->value.var = $3;
+        if($1->constante == 0){
+            $1->valor.valor = $3;
             $$ = $3;
         }
         else{
-            imprimirError(3,$1->name);
+            imprimirError(3,$1->nombre);
             return 0;
         }
     }
 
-    | FNCT '(' exp ')'   { $$ = (*($1->value.fnctptr))($3); }
+    | FNCT '(' exp ')'   { $$ = (*($1->valor.funcion))($3); }
     | exp '+' exp        { $$ = $1 + $3; }
     | exp '-' exp        { $$ = $1 - $3; }
     | exp '*' exp        { $$ = $1 * $3; }

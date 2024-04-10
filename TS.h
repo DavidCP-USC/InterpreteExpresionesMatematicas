@@ -4,7 +4,7 @@ typedef double (*func_t) (double);
 // Definimos el tipo de dato que se almacenará en la lista
 typedef struct {
     char *nombre; // Nombre
-    int tipo; // Variable = 0, Función = 1
+    int tipo; // Tipo: VAR o FNCT
     union {
         double valor; // Valor de la variable
         func_t funcion; // Puntero a la función
@@ -58,3 +58,6 @@ void imprimirFunciones();
 
 // Imprimir las variables almacenadas en la tabla de símbolos
 void imprimirVariables();
+
+// Reiniciar la tabla de símbolos
+void reiniciarTS(); 

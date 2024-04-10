@@ -1,37 +1,39 @@
 %{
-    #include "estructura.h"
-    #include "ccASint.tab.h"
-    #include "gestionErrores.h"
+    #include "TS.h"
+    #include "AnalizadorSintactico.tab.h"
+    #include "Errores.h"
     
     // Función para imprimir la ayuda
     void ayuda(){
-        
-        printf("\nComandos disponibles:\n");
-        printf("ayuda/help\t\tMostrar ayuda.\nload <path>\tCargar un fichero con instrucciones y ejecutarlas.\nvars\t\t\tMostrar las variables de la tabla de símbolos.\nfuncs\t\t\tMostrar las funciones de la tabla de símbolos.\nreset\t\t\tBorrar las variables de la calculadora.\nsalir/exit\t\tSalir del programa.\n");
-        printf("\n\tNota: los comandos se pueden introducir en mayúsculas o minúsculas\n");
-        printf("\nOperaciones básicas disponibles y ejemplos:\n");
+        printf("\nComandos:\n");
+        printf("help\t\t\tMostrar ayuda.\nload <path>\t\tCargar un fichero con instrucciones y ejecutarlas.\nvars\t\t\tMostrar las variables de la tabla de símbolos.\nfuncs\t\t\tMostrar las funciones de la tabla de símbolos.\nreset\t\t\tBorrar las variables de la calculadora.\nsalir/exit\t\tSalir del programa.\n");
+        printf("\nOperaciones disponibles y ejemplos:\n");
         printf("+\tSuma \t\t a + a\n-\tResta \t\t a - a\n*\tMultiplicación \t a * a\n/\tDivisión \t a / a\n^\tElevar \t\t a ^ a\n=\tIgualar  \t a = a\n\n");
-        printf("\n\tNota: se puede introducir o no introducir espacios entre las operaciones y los números\n\n");
+        printf("\n\tNota1: se puede introducir o no introducir espacios entre las operaciones y los números\n");
+        printf("\n\tNota2: si se termina una sentencia sin \";\" el resultado no aparecera por pantalla\n\n");
     }
 
-    symrec *s;
+    Nodo *s;
     
 %}
 
 %option noyywrap
+
 
 DIGITO              [0-9]
 ENTERO              ({DIGITO}[_]?)+
 CIENTIFICO          {ENTERO}[eE][+-]?{ENTERO}
 DECIMAL             {ENTERO}"."{ENTERO}
 DECIMALCIENTIFICO   {DECIMAL}[eE][+-]?{ENTERO}
+
+
 IDENTIFICADOR       [_a-zA-Z][_a-zA-Z0-9]*
 TOKENSIMPLE         [\+\-\*\/\=\(\)\;\^]
 NOMBREFICHERO       [a-zA-Z0-9]([a-zA-Z0-9])*
 EXTENSION           ([a-zA-Z])*
 RUTA                {NOMBREFICHERO}"."?{EXTENSION}
 CARGA               "load "|"LOAD "
-AYUDA               "ayuda"|"AYUDA"|"help"|"HELP"
+AYUDA               "help"|"HELP"
 SALIR               "salir"|"SALIR"|"exit"|"EXIT"
 VARIABLE            "vars"|"VARS"
 FUNCION             "funcs"|"FUNCS"
@@ -44,20 +46,20 @@ REINICIAR           "reset"|"RESET"
     BEGIN(INITIAL);
 }
 
-{CARGA}{RUTA} /* Comando de carga de fichero */ {
-    FILE* fp = fopen(yytext+5, "r+"); /* Leemos el fichero */
-    if(!fp){ /* Comprobamos la incorrecta apertura del fichero */
+{CARGA}{RUTA} /* Comando para cargar un archivo */ {
+    FILE* fp = fopen(yytext+5, "r+"); /* Abrimos el archivo */
+    if(!fp){ /* Comprobamos si el archivo se abrió correctamente */
         imprimirError(1, yytext+5);
-        yyin=stdin; /* Entrada por defecto la entrada del sistema */
+        yyin=stdin; /* Establecemos la entrada estándar como entrada predeterminada */
     }
     else{
-        yyin = fp; /* Entrada por defecto el fichero proporcionado */
+        yyin = fp; /* Establecemos el archivo proporcionado como entrada predeterminada */
     }
     BEGIN(INITIAL);
 }
 
 {REINICIAR} /* Función para mostrar las variables de la tabla de símbolo */ {
-    reiniciarTablaSimbolos();
+    reiniciarTS();
     printf("Sistema reiniciado\n");
     BEGIN(INITIAL);
 }
@@ -77,6 +79,7 @@ REINICIAR           "reset"|"RESET"
     imprimirVariables();
     BEGIN(INITIAL);
 }
+
 
 {ENTERO} /* Enteros */ {
     yylval.NUM = atof(yytext);
@@ -99,18 +102,22 @@ REINICIAR           "reset"|"RESET"
     return NUM;
 }
 
+
+
 {IDENTIFICADOR} /* Identificador */ {
-    s = getsym(yytext); /* Intentamos obtener el dato de la tabla de símbolos */
-    if(s == 0){ /* Si no está en la tabla es una variable */
-        s = putsym(yytext, VAR, 'n'); /* La introducimos en la tabla de símbolos*/
+    s = buscarNodo(yytext); /* Intentamos obtener el dato de la tabla de símbolos */
+    if(s == NULL){ /* Si no está en la tabla es una variable */
+        /* La introducimos en la tabla de símbolos */
+        s = crearNodo(yytext, VAR, 0);
+        insertarNodo(s); 
     }
-    if(s->type==VAR){ /* Si es constante o variable */
+    if(s->tipo == VAR){ /* Si es constante o variable */
         yylval.VAR = s; /* Introducimos el valor*/
     }
     else{ /*Si es una función */
         yylval.FNCT = s; /* Introducimos el valor*/
     }
-    return s->type;
+    return s->tipo;
 }
 
 {TOKENSIMPLE} /*TOKEN Simple*/ return yytext[0] ;

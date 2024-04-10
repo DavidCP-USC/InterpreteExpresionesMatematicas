@@ -4,6 +4,7 @@
 #include "TS.h"
 #include <math.h>
 #include "definiciones.h"
+#include "AnalizadorSintactico.tab.h"
 
 // Patron de diseno Singleton
 Nodo *TS;
@@ -29,6 +30,7 @@ void destruirTS(){
     if (TS != NULL) {
         eliminarNodoTS(&TS);
     }
+    TS = NULL;
 }
 
 // Eliminar un nodo de la tabla de símbolos
@@ -99,4 +101,12 @@ void imprimirVariables(){
         nodo = (Nodo *)nodo->siguiente;
     }
     printf("===============================\n");
+}
+
+// Reiniciar la tabla de símbolos
+void reiniciarTS(){
+    if (TS != NULL){
+        destruirTS();
+    }
+    initTS();
 }

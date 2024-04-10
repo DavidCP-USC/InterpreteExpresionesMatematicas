@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "TS.h"
-#include <math.h>
+#include "lex.yy.c"
+#include "AnalizadorSintactico.tab.h"
 
 int main(int argc, char *argv[]){
     initTS();
-    imprimirFunciones();
-    imprimirVariables();
-    destruirTS();
 
-
-
+    yyin = stdin; // Definimos la entrada de flex como la entrada del sistema
+    printf("Puede obtener use el comando \"help\"\n");
+    while(1){
+        yyparse(); // Lanzamos la ejecución del analizador sintáctico
+    }
+    yylex_destroy();
+    free(yyin);
     return 0;
 }

@@ -1,8 +1,6 @@
 #define NUM_FUNCIONES 9
 #define NUM_CONSTANTES 2
 
-#define FNCT 260
-#define VAR  261
 
 // Datos necesarios para inicializar la tabla de simbolos
 typedef struct{
