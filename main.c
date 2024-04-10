@@ -7,7 +7,7 @@ int main(int argc, char *argv[]){
     initTS();
 
     yyin = stdin; // Definimos la entrada de flex como la entrada del sistema
-    printf("Puede obtener use el comando \"help\"\n");
+    printf("Puede obtener ayuda con el comando \"help\"\n");
     while(1){
         yyparse(); // Lanzamos la ejecución del analizador sintáctico
     }
