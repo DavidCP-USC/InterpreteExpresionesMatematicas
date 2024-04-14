@@ -519,8 +519,8 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int8 yyrline[] =
 {
        0,    36,    36,    42,    45,    46,    47,    48,    49,    59,
-      60,    74,    79,    90,    91,    92,    93,    94,   103,   111,
-     112
+      60,    73,    78,    92,    93,    94,    95,    96,   105,   113,
+     114
 };
 #endif
 
@@ -1153,7 +1153,6 @@ yyreduce:
   case 10: /* exp: VAR  */
 #line 60 "AnalizadorSintactico.y"
                          { 
-        printf("%s\n",(yyvsp[0].VAR)->nombre);
         entrada = buscarNodo((yyvsp[0].VAR)->nombre);
         if (entrada == NULL){
             imprimirError(6, NULL);
@@ -1166,22 +1165,25 @@ yyreduce:
             (yyval.exp) = entrada->valor.valor;
         }
     }
-#line 1170 "AnalizadorSintactico.tab.c"
+#line 1169 "AnalizadorSintactico.tab.c"
     break;
 
   case 11: /* exp: FNCT '=' exp  */
-#line 74 "AnalizadorSintactico.y"
+#line 73 "AnalizadorSintactico.y"
                          {
         imprimirError(2,(yyvsp[-2].FNCT)->nombre);
         return 0;
     }
-#line 1179 "AnalizadorSintactico.tab.c"
+#line 1178 "AnalizadorSintactico.tab.c"
     break;
 
   case 12: /* exp: VAR '=' exp  */
-#line 79 "AnalizadorSintactico.y"
+#line 78 "AnalizadorSintactico.y"
                          { 
         if((yyvsp[-2].VAR)->constante == 0){
+            if (buscarNodo((yyvsp[-2].VAR)->nombre) == NULL){
+                insertarNodo((yyvsp[-2].VAR));
+            }
             (yyvsp[-2].VAR)->valor.valor = (yyvsp[0].exp);
             (yyval.exp) = (yyvsp[0].exp);
         }
@@ -1190,35 +1192,35 @@ yyreduce:
             return 0;
         }
     }
-#line 1194 "AnalizadorSintactico.tab.c"
+#line 1196 "AnalizadorSintactico.tab.c"
     break;
 
   case 13: /* exp: FNCT '(' exp ')'  */
-#line 90 "AnalizadorSintactico.y"
+#line 92 "AnalizadorSintactico.y"
                          { (yyval.exp) = (*((yyvsp[-3].FNCT)->valor.funcion))((yyvsp[-1].exp)); }
-#line 1200 "AnalizadorSintactico.tab.c"
+#line 1202 "AnalizadorSintactico.tab.c"
     break;
 
   case 14: /* exp: exp '+' exp  */
-#line 91 "AnalizadorSintactico.y"
+#line 93 "AnalizadorSintactico.y"
                          { (yyval.exp) = (yyvsp[-2].exp) + (yyvsp[0].exp); }
-#line 1206 "AnalizadorSintactico.tab.c"
+#line 1208 "AnalizadorSintactico.tab.c"
     break;
 
   case 15: /* exp: exp '-' exp  */
-#line 92 "AnalizadorSintactico.y"
+#line 94 "AnalizadorSintactico.y"
                          { (yyval.exp) = (yyvsp[-2].exp) - (yyvsp[0].exp); }
-#line 1212 "AnalizadorSintactico.tab.c"
+#line 1214 "AnalizadorSintactico.tab.c"
     break;
 
   case 16: /* exp: exp '*' exp  */
-#line 93 "AnalizadorSintactico.y"
+#line 95 "AnalizadorSintactico.y"
                          { (yyval.exp) = (yyvsp[-2].exp) * (yyvsp[0].exp); }
-#line 1218 "AnalizadorSintactico.tab.c"
+#line 1220 "AnalizadorSintactico.tab.c"
     break;
 
   case 17: /* exp: exp '/' exp  */
-#line 94 "AnalizadorSintactico.y"
+#line 96 "AnalizadorSintactico.y"
                          {
         if((yyvsp[0].exp) != 0){
             (yyval.exp) = (yyvsp[-2].exp) / (yyvsp[0].exp);
@@ -1228,11 +1230,11 @@ yyreduce:
             return 0;
         }
     }
-#line 1232 "AnalizadorSintactico.tab.c"
+#line 1234 "AnalizadorSintactico.tab.c"
     break;
 
   case 18: /* exp: '-' exp  */
-#line 103 "AnalizadorSintactico.y"
+#line 105 "AnalizadorSintactico.y"
                          { 
         if((yyvsp[0].exp) != 0){
             (yyval.exp) = -(yyvsp[0].exp);
@@ -1241,23 +1243,23 @@ yyreduce:
             (yyval.exp) = (yyvsp[0].exp); 
         }
     }
-#line 1245 "AnalizadorSintactico.tab.c"
+#line 1247 "AnalizadorSintactico.tab.c"
     break;
 
   case 19: /* exp: exp '^' exp  */
-#line 111 "AnalizadorSintactico.y"
+#line 113 "AnalizadorSintactico.y"
                          { (yyval.exp) = pow ((yyvsp[-2].exp), (yyvsp[0].exp)); }
-#line 1251 "AnalizadorSintactico.tab.c"
+#line 1253 "AnalizadorSintactico.tab.c"
     break;
 
   case 20: /* exp: '(' exp ')'  */
-#line 112 "AnalizadorSintactico.y"
+#line 114 "AnalizadorSintactico.y"
                          { (yyval.exp) = (yyvsp[-1].exp); }
-#line 1257 "AnalizadorSintactico.tab.c"
+#line 1259 "AnalizadorSintactico.tab.c"
     break;
 
 
-#line 1261 "AnalizadorSintactico.tab.c"
+#line 1263 "AnalizadorSintactico.tab.c"
 
       default: break;
     }
@@ -1450,7 +1452,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 115 "AnalizadorSintactico.y"
+#line 117 "AnalizadorSintactico.y"
 
  /*Codigo adicional*/
 void yyerror(char *s){ 

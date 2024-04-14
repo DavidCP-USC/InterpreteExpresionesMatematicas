@@ -58,7 +58,6 @@ line: '\n'
 
 exp: NUM                 { $$ = $1; }
     | VAR                { 
-        printf("%s\n",$1->nombre);
         entrada = buscarNodo($1->nombre);
         if (entrada == NULL){
             imprimirError(6, NULL);
@@ -78,6 +77,9 @@ exp: NUM                 { $$ = $1; }
 
     | VAR '=' exp        { 
         if($1->constante == 0){
+            if (buscarNodo($1->nombre) == NULL){
+                insertarNodo($1);
+            }
             $1->valor.valor = $3;
             $$ = $3;
         }

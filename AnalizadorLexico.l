@@ -49,11 +49,12 @@ REINICIAR           "reset"|"RESET"
 }
 
 {CARGA}{RUTA} /* Comando para cargar un archivo */ {
-    FILE* yyin = fopen(yytext+5, "r+"); /* Abrimos el archivo */
+    yyin = fopen(yytext+5, "r+"); /* Abrimos el archivo */
     if(!yyin){ /* Comprobamos si el archivo se abrió correctamente */
         imprimirError(1, yytext+5);
         yyin=stdin; /* Establecemos la entrada estándar como entrada predeterminada */
     }
+    printf("Archivo %s ejecutado correctamente\n", yytext+5);
     BEGIN(INITIAL);
 }
 
