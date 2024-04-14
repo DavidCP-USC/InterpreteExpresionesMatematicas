@@ -54,7 +54,7 @@ REINICIAR           "reset"|"RESET"
         imprimirError(1, yytext+5);
         yyin=stdin; /* Establecemos la entrada estándar como entrada predeterminada */
     }
-    printf("Archivo %s ejecutado correctamente\n", yytext+5);
+    printf("Archivo %s abierto correctamente\n", yytext+5);
     BEGIN(INITIAL);
 }
 
@@ -130,6 +130,7 @@ REINICIAR           "reset"|"RESET"
     yyin=stdin;
     yyrestart(yyin);
     BEGIN(INITIAL);
+    printf("Se termino de leer el archivo\n> ");
     return '\n'; /* Necesario para que funcione la lectura de lectura de archivo, sino si no acaba el archivo con un salto de línea "Kaboom" */
 }
 [ \t\r\b\f] /* Simbolos que no se tienen que contemplar */
