@@ -44,6 +44,7 @@ REINICIAR           "reset"|"RESET"
 
 {AYUDA} /* Comando de ayuda */ {
     ayuda();
+    printf("> ");
     BEGIN(INITIAL);
 }
 
@@ -59,6 +60,7 @@ REINICIAR           "reset"|"RESET"
 {REINICIAR} /* Función para mostrar las variables de la tabla de símbolo */ {
     reiniciarTS();
     printf("Sistema reiniciado\n");
+    printf("> ");
     BEGIN(INITIAL);
 }
 
@@ -69,11 +71,13 @@ REINICIAR           "reset"|"RESET"
 
 {FUNCION} /* Función para mostrar las variables de la tabla de símbolo */ {
     imprimirFunciones();
+    printf("> ");
     BEGIN(INITIAL);
 }
 
 {VARIABLE} /* Función para mostrar las variables de la tabla de símbolo */ {
     imprimirVariables();
+    printf("> ");
     BEGIN(INITIAL);
 }
 
@@ -104,9 +108,9 @@ REINICIAR           "reset"|"RESET"
 {IDENTIFICADOR} /* Identificador */ {
     s = buscarNodo(yytext); /* Intentamos obtener el dato de la tabla de símbolos */
     if(s == NULL){ /* Si no está en la tabla es una variable */
-        /* La introducimos en la tabla de símbolos */
         s = crearNodo(yytext, VAR, 0);
-        insertarNodo(s); 
+        yylval.VAR = s;
+        return VAR;
     }
     if(s->tipo == VAR){ /* Si es constante o variable */
         yylval.VAR = s; /* Introducimos el valor*/

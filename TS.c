@@ -70,6 +70,7 @@ Nodo *buscarNodo(char const *nombre){
     Nodo *nodo = TS;
     while (nodo != NULL){
         if (strcmp(nodo->nombre, nombre) == 0){
+            printf("Nodo encontrado: %s\n", nodo->nombre);
             return nodo;
         }
         nodo = (Nodo *)nodo->siguiente;

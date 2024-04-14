@@ -19,7 +19,7 @@ void imprimirError(int codigo, char* cadena){
          printf("Error genérico: %s.\n",cadena);
          break;
       case 6:
-         printf("Variable %s no definida.\n",cadena);
+         printf("Variable no definida.\n");
          break;
       default:
          printf("Error desconocido.\n");

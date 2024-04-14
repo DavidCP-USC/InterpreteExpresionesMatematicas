@@ -8,7 +8,11 @@
 
     int yylex(); //Función del analizador léxico
     void yyerror(char *s); //Función de informe de errores
+
+    Nodo *entrada = NULL;
 %}
+
+
 
 /* Declaraciones de Bison */
 %define api.value.type union
@@ -35,7 +39,7 @@ input:  {
     
     printf("\n\n> ");
     }
-    | input line {printf("> ");}
+    | input line
 ;
 
 line: '\n'
@@ -53,7 +57,20 @@ line: '\n'
 ;
 
 exp: NUM                 { $$ = $1; }
-    | VAR                { $$ = $1->valor.valor; }
+    | VAR                { 
+        printf("%s\n",$1->nombre);
+        entrada = buscarNodo($1->nombre);
+        if (entrada == NULL){
+            imprimirError(6, NULL);
+            free ($1->nombre);
+            free($1);
+            $1 = NULL;
+            return 0;
+        }
+        else{
+            $$ = entrada->valor.valor;
+        }
+    }
     | FNCT '=' exp       {
         imprimirError(2,$1->nombre);
         return 0;
