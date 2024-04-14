@@ -24,20 +24,20 @@ Todas las pruebas se han hecho bajo Ubuntu 22.04.4
 
 ## Compilación
 
-Para compilar el proyecto es necesario tener todos los archivos en la misma carpeta y ejecutar el script ```compile.sh``` que, de no tener premisos de ejecución, se le deben otorgar con el comando ```chmod +x ./ejecutable```. Se generará un archivo ```practica3.out``` al que debemos también otorgarle permisos de ejecución con el comando facilitado anteriormente
+Para compilar el proyecto es necesario tener todos los archivos en la misma carpeta y ejecutar el script ```compile.sh``` que, de no tener premisos de ejecución, se le deben otorgar con el comando ```chmod +x ./ejecutable```. Se generará un archivo ```ejecutable.out``` al que debemos también otorgarle permisos de ejecución con el comando facilitado anteriormente
 
 ## Ejecución
 
-La ejecución es muy sencilla, simplemente ejecutamos el archivo ```pruebas.out``` que se genera tras la compilación.
+La ejecución es muy sencilla, simplemente ejecutamos el archivo ```ejecutable.out``` que se genera tras la compilación.
 
 ## Funciones y comandos
 
 * help: Muestra la ayuda.
 * load path: Carga un fichero con expresiones matemáticas y las ejecuta.
 * vars: Muestra las variables disponibles (aquellas almacenadas en la Tabla de Símbolos)
-* funcs: Muestra las funciones disponibles (aquellas almacenadas en la Tabala de Símbolos)
+* funs: Muestra las funciones disponibles (aquellas almacenadas en la Tabala de Símbolos)
 * reset: Borra todas las variables almacenadas por el usuario.
-* salir / exit: Se finaliza el programa
+* quit / exit: Se finaliza el programa
 
 ### Notas extra
 

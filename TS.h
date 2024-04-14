@@ -22,7 +22,7 @@ void initTS();
 // Destruir la tabla de símbolos
 void destruirTS(); 
 
-// Elimina run nodo de la tabla de símbolos
+// Elimina un nodo de la tabla de símbolos
 /*
     @param nodo: Puntero al nodo a eliminar
 */
@@ -37,7 +37,7 @@ void eliminarNodoTS(Nodo **nodo);
     
     @return: Puntero al nodo creado
 */
-Nodo *crearNodo(char const *nombre, int tipo, int constante); 
+Nodo *crearNodo(char *nombre, int tipo, int constante); 
 
 // Insertar un nodo en la tabla de símbolos
 /*
@@ -51,7 +51,7 @@ void insertarNodo(Nodo *nodo);
     
     @return: Puntero al nodo buscado
 */
-Nodo *buscarNodo(char const *nombre); // Busca un nodo en la tabla de símbolos
+Nodo *buscarNodo(char *nombre); // Busca un nodo en la tabla de símbolos
 
 // Imprimir las funciones almacenadas en la tabla de símbolos
 void imprimirFunciones();

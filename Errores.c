@@ -1,27 +1,27 @@
 #include "Errores.h"
 #include <stdio.h>
 
-void imprimirError(int codigo, char* cadena){
-    switch (codigo){
+void imprimirError(int tipo, char* str){
+    switch (tipo){
       case 1:
-         printf("Error: No se pudo abrir el archivo %s para la entrada.\n", cadena);
-         break;
+        printf("Error al abrir el archivo %s\n", str);
+        break;
       case 2:
-         printf("ERROR: %s es una palabra reservada.\n",cadena);
-         break;
+        printf("Error: %s es una palabra reservada.\n",str);
+        break;
       case 3:
-         printf("ERROR: %s es una constante y no se puede modificar.\n",cadena);
-         break;
+        printf("Error: %s es una constante.\n",str);
+        break;
       case 4:
-         printf("ERROR: División por cero.\n");
-         break;
+        printf("Error: No se puede dividir por cero.\n");
+        break;
       case 5:
-         printf("Error genérico: %s.\n",cadena);
-         break;
+        printf("Error: %s.\n",str);
+        break;
       case 6:
-         printf("Variable no definida.\n");
-         break;
+        printf("Error: Variable no definida.\n");
+        break;
       default:
-         printf("Error desconocido.\n");
+        printf("Error desconocido.\n");
    }
 }

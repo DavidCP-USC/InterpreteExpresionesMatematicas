@@ -39,11 +39,13 @@ void eliminarNodoTS(Nodo **nodo){
         eliminarNodoTS((Nodo **)&((*nodo)->siguiente));
     }
     free((*nodo)->nombre);
+    (*nodo)->nombre = NULL;
     free(*nodo);
+    *nodo = NULL;
 }
 
 // Crear un nodo a partir de sus datos
-Nodo *crearNodo(char const *nombre, int tipo, int constante){
+Nodo *crearNodo(char *nombre, int tipo, int constante){
     Nodo *nodo = (Nodo *)malloc(sizeof(Nodo));
     nodo->nombre = (char *)malloc(strlen(nombre) + 1);
     strncpy(nodo->nombre, nombre, strlen(nombre) + 1);
@@ -66,7 +68,7 @@ void insertarNodo(Nodo *nodo){
 }
 
 // Buscar un nodo en la tabla de símbolos
-Nodo *buscarNodo(char const *nombre){
+Nodo *buscarNodo(char *nombre){
     Nodo *nodo = TS;
     while (nodo != NULL){
         if (strcmp(nodo->nombre, nombre) == 0){

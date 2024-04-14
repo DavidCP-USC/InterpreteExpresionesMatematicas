@@ -9,12 +9,12 @@ typedef struct{
 }Funcion;
 
 typedef struct{
-    char const *nombre;
+    char *nombre;
     double valor;
 }Constante;
 
 // Funciones a introducir en la tabla de simbolos
-Funcion const funciones[NUM_FUNCIONES] = {
+Funcion funciones[NUM_FUNCIONES] = {
     {    "sqrt", sqrt    },
     {    "exp",  exp     },
     {    "ln",   log     },
@@ -27,7 +27,7 @@ Funcion const funciones[NUM_FUNCIONES] = {
 };
 
 // Constantes a introducir en la tabla de simbolos
-Constante const constantes[NUM_CONSTANTES] = {
+Constante constantes[NUM_CONSTANTES] = {
     {    "pi", M_PI     },
     {    "e",  M_E      },
 };
