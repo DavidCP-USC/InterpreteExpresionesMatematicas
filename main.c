@@ -11,7 +11,5 @@ int main(int argc, char *argv[]){
     while(1){
         yyparse(); // Lanzamos la ejecución del analizador sintáctico
     }
-    yylex_destroy();
-    free(yyin);
     return 0;
 }

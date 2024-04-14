@@ -3,6 +3,7 @@
     #include "AnalizadorSintactico.tab.h"
     #include "Errores.h"
     
+    
     // Función para imprimir la ayuda
     void ayuda(){
         printf("\nComandos:\n");
@@ -47,13 +48,10 @@ REINICIAR           "reset"|"RESET"
 }
 
 {CARGA}{RUTA} /* Comando para cargar un archivo */ {
-    FILE* fp = fopen(yytext+5, "r+"); /* Abrimos el archivo */
-    if(!fp){ /* Comprobamos si el archivo se abrió correctamente */
+    FILE* yyin = fopen(yytext+5, "r+"); /* Abrimos el archivo */
+    if(!yyin){ /* Comprobamos si el archivo se abrió correctamente */
         imprimirError(1, yytext+5);
         yyin=stdin; /* Establecemos la entrada estándar como entrada predeterminada */
-    }
-    else{
-        yyin = fp; /* Establecemos el archivo proporcionado como entrada predeterminada */
     }
     BEGIN(INITIAL);
 }
@@ -66,7 +64,6 @@ REINICIAR           "reset"|"RESET"
 
 {SALIR} /* Función para salir del programa */ {
     printf("Saliendo del interprete\n");
-    BEGIN(INITIAL);
     return EXIT;
 }
 

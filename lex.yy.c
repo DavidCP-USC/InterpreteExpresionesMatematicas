@@ -511,6 +511,7 @@ char *yytext;
     #include "AnalizadorSintactico.tab.h"
     #include "Errores.h"
     
+    
     // Función para imprimir la ayuda
     void ayuda(){
         printf("\nComandos:\n");
@@ -523,8 +524,8 @@ char *yytext;
 
     Nodo *s;
     
-#line 527 "lex.yy.c"
 #line 528 "lex.yy.c"
+#line 529 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -741,10 +742,10 @@ YY_DECL
 		}
 
 	{
-#line 42 "AnalizadorLexico.l"
+#line 43 "AnalizadorLexico.l"
 
 
-#line 748 "lex.yy.c"
+#line 749 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -803,7 +804,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 44 "AnalizadorLexico.l"
+#line 45 "AnalizadorLexico.l"
 /* Comando de ayuda */ {
     ayuda();
     BEGIN(INITIAL);
@@ -811,22 +812,19 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 49 "AnalizadorLexico.l"
+#line 50 "AnalizadorLexico.l"
 /* Comando para cargar un archivo */ {
-    FILE* fp = fopen(yytext+5, "r+"); /* Abrimos el archivo */
-    if(!fp){ /* Comprobamos si el archivo se abrió correctamente */
+    FILE* yyin = fopen(yytext+5, "r+"); /* Abrimos el archivo */
+    if(!yyin){ /* Comprobamos si el archivo se abrió correctamente */
         imprimirError(1, yytext+5);
         yyin=stdin; /* Establecemos la entrada estándar como entrada predeterminada */
-    }
-    else{
-        yyin = fp; /* Establecemos el archivo proporcionado como entrada predeterminada */
     }
     BEGIN(INITIAL);
 }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 61 "AnalizadorLexico.l"
+#line 59 "AnalizadorLexico.l"
 /* Función para mostrar las variables de la tabla de símbolo */ {
     reiniciarTS();
     printf("Sistema reiniciado\n");
@@ -835,16 +833,15 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 67 "AnalizadorLexico.l"
+#line 65 "AnalizadorLexico.l"
 /* Función para salir del programa */ {
     printf("Saliendo del interprete\n");
-    BEGIN(INITIAL);
     return EXIT;
 }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 73 "AnalizadorLexico.l"
+#line 70 "AnalizadorLexico.l"
 /* Función para mostrar las variables de la tabla de símbolo */ {
     imprimirFunciones();
     BEGIN(INITIAL);
@@ -852,7 +849,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 78 "AnalizadorLexico.l"
+#line 75 "AnalizadorLexico.l"
 /* Función para mostrar las variables de la tabla de símbolo */ {
     imprimirVariables();
     BEGIN(INITIAL);
@@ -860,7 +857,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 84 "AnalizadorLexico.l"
+#line 81 "AnalizadorLexico.l"
 /* Enteros */ {
     yylval.NUM = atof(yytext);
     return NUM;
@@ -869,7 +866,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 90 "AnalizadorLexico.l"
+#line 87 "AnalizadorLexico.l"
 /* Científico */ {
     yylval.NUM = atof(yytext);
     return NUM;
@@ -877,7 +874,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 95 "AnalizadorLexico.l"
+#line 92 "AnalizadorLexico.l"
 /* Decimal */ {
     yylval.NUM = atof(yytext);
     return NUM;
@@ -885,7 +882,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 100 "AnalizadorLexico.l"
+#line 97 "AnalizadorLexico.l"
 /* Decimal Científico */ {
     yylval.NUM = atof(yytext);
     return NUM;
@@ -893,7 +890,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 107 "AnalizadorLexico.l"
+#line 104 "AnalizadorLexico.l"
 /* Identificador */ {
     s = buscarNodo(yytext); /* Intentamos obtener el dato de la tabla de símbolos */
     if(s == NULL){ /* Si no está en la tabla es una variable */
@@ -912,17 +909,17 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 123 "AnalizadorLexico.l"
+#line 120 "AnalizadorLexico.l"
 /*TOKEN Simple*/ return yytext[0] ;
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 125 "AnalizadorLexico.l"
+#line 122 "AnalizadorLexico.l"
 /* Salto de linea */ return '\n';
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 126 "AnalizadorLexico.l"
+#line 123 "AnalizadorLexico.l"
 {
     fclose(yyin);
     yyin=stdin;
@@ -933,15 +930,15 @@ case YY_STATE_EOF(INITIAL):
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 133 "AnalizadorLexico.l"
+#line 130 "AnalizadorLexico.l"
 /* Simbolos que no se tienen que contemplar */
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 134 "AnalizadorLexico.l"
+#line 131 "AnalizadorLexico.l"
 ECHO;
 	YY_BREAK
-#line 945 "lex.yy.c"
+#line 942 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1944,5 +1941,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 134 "AnalizadorLexico.l"
+#line 131 "AnalizadorLexico.l"
 

@@ -4,6 +4,7 @@
     #include <math.h>
     #include "TS.h"
     #include "Errores.h"
+    #include "lex.yy.h"
 
     int yylex(); //Función del analizador léxico
     void yyerror(char *s); //Función de informe de errores
@@ -42,8 +43,12 @@ line: '\n'
     | exp ';' '\n'  { printf("\t%lf\n",$1); }
     | error '\n'    { yyerrok;              }
     | EXIT '\n'     { 
-        destruirTS(); /* Destruimos la tabla de Simbolos antes de salir */
-        exit(0); 
+        if (yyin != NULL){
+            fclose(yyin);
+        }
+        destruirTS();
+        yylex_destroy();
+        exit(0);
     }
 ;
 
